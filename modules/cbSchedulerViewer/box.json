@@ -1,0 +1,54 @@
+{
+    "author":"Ryan Albrecht",
+    "bugs":"",
+    "changelog":"",
+    "contributors":[],
+    "dependencies":{},
+    "description":"",
+    "devDependencies":{},
+    "documentation":"https://github.com/ryanalbrecht/cbSchedulerViewer",
+    "homepage":"https://github.com/ryanalbrecht/cbSchedulerViewer",
+    "ignore":[],
+    "installPaths":{},
+    "instructions":"",
+    "keywords":"cbScheduler,tasks,task,scheduler",
+    "license":[
+        {
+            "type":"",
+            "URL":""
+        }
+    ],
+    "location":"forgeboxStorage",
+    "name":"cbSchedulerViewer",
+    "private":false,
+    "projectURL":"https://github.com/ryanalbrecht/cbSchedulerViewer",
+    "repository":{
+        "type":"",
+        "URL":""
+    },
+    "scripts":{},
+    "shortDescription":"A module to display an overview of registered tasks created using the coldbox scheduler",
+    "slug":"cbSchedulerViewer",
+    "testbox":{
+        "bundles":"",
+        "directory":"tests.specs",
+        "excludes":"",
+        "labels":"",
+        "options":{},
+        "recurse":true,
+        "reporter":"",
+        "runner":[
+            {
+                "default":""
+            }
+        ],
+        "testBundles":"",
+        "testSpecs":"",
+        "testSuites":"",
+        "verbose":true,
+        "watchDelay":500,
+        "watchPaths":"**.cfc"
+    },
+    "type":"modules",
+    "version":"1.0.6"
+}

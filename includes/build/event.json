@@ -1,0 +1,37 @@
+[
+    {
+        "status":"OPN",
+        "status_label":"Open",
+        "classic_label":"Available"
+    },
+    {
+        "status":"BKD",
+        "status_label":"Booked",
+        "classic_label":"Planned"
+    },
+    {
+        "status":"LDG",
+        "status_label":"Loading",
+        "classic_label":"Started"
+    },
+    {
+        "status":"LDD",
+        "status_label":"Loaded",
+        "classic_label":""
+    },
+    {
+        "status":"UDD",
+        "status_label":"Unloading",
+        "classic_label":""
+    },
+    {
+        "status":"UND",
+        "status_label":"Unloaded",
+        "classic_label":""
+    },
+    {
+        "status":"DEL",
+        "status_label":"Delivered",
+        "classic_label":"Complete"
+    }
+]

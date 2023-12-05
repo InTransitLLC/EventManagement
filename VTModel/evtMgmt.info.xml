@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validateThis xsi:noNamespaceSchemaLocation="validateThis.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<conditions>
+	</conditions>
+	<contexts>
+		<context name="Save" formName="eventMgmtFrm" />
+	</contexts>
+	<objectProperties>
+		<property name="emailSubject" desc="Email Subject">
+			<rule type="required" contexts="*"/>
+			<rule type="maxLength" contexts="Save">
+				<param name="maxLength" value="300" />
+			</rule>
+		</property>
+	</objectProperties>
+</validateThis>
