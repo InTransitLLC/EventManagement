@@ -18,8 +18,12 @@ component{
                     if(r.type eq 'load'){
                         order_sendEmail(r)
                     }
+                    if(r.type eq 'rcSent'){
+                        rcSent_notRec(r)
+                    }
                 }
             }
+            //abort;
             return result;
         }else{
             return 'No emails to send';
@@ -35,10 +39,10 @@ component{
             }
             
             // writedump(result);
+            // writedump(order);
             var subject = replace(result.Emailsubject, "##", "####", "All");
             subject = replace(subject, "}", "##", "All");
             subject = replace(subject, "{", "##order.", "All");
-            // writedump(order);
 
             var emailBody = '';
             /* if((order.ord_dispatch_status eq 'OPN') OR (order.ord_dispatch_status eq 'BKD')){ */
@@ -65,31 +69,69 @@ component{
             var emailOne = '';
             var emailTwo = '';
             var emailThree = '';
-            /* if(environment eq "production"){ */
-                if(len(result.email1)){
-                    emailOne = result.email1;
-                cfmail( to = "#emailOne#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
+            
+            if(len(result.email1)){
+                emailOne = result.email1;
+            cfmail( to = "#emailOne#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
+                WriteOutput(emailBody);
+                }
+            }
+            if(len(result.email2)){
+                emailTwo = result.email2;
+                cfmail( to = "#emailTwo#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
+                    WriteOutput(emailBody);
+                }
+            }
+            if(len(result.email3)){
+                emailThree = result.email3;
+                cfmail( to = "#emailThree#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
+                    WriteOutput(emailBody);
+                }
+            } 
+            
+            markSent(arguments.entry.en_id)
+            
+        }  catch(any e){
+            return e;
+        }
+    }
+
+    function rcSent_notRec(required any entry){
+        try{
+            
+            cfstoredproc( procedure="CC_Event_RCNotRecieved",datasource="#dsn.TILT#" ) {
+                cfprocparam( cfsqltype="CF_SQL_VARCHAR", type="in", value="#arguments.entry.type_id#");
+                cfprocresult( name="result", resultset=1);
+                cfprocresult( name="order", resultset=2);
+            }
+            writedump(order);
+            writedump(result);
+            var emailBody = '';
+            
+
+            if(len(result.email1)){
+                
+                emailBody = 'The Rate Confirmation for Order #order.ord_number# 
+                            was sent to #order.car_name#
+                            at #timeFormat(DateAdd('h',order.TimeZone,order.log_crcoutdate))#
+                            and has not been signed.';
+                writedump(emailBody);
+                cfmail( to = "#result.email1#", from = "noreply@bridgeway.io", subject = "#trim(order.ord_number)# - #result.emailsubject#",type="text/html" ) { 
                     WriteOutput(emailBody);
                     }
-                }
-                if(len(result.email2)){
-                    emailTwo = result.email2;
-                    cfmail( to = "#emailTwo#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
-                        WriteOutput(emailBody);
-                    }
-                }
-                if(len(result.email3)){
-                    emailThree = result.email3;
-                    cfmail( to = "#emailThree#", from = "noreply@bridgeway.io", subject = "#evaluate(De(subject))#",type="text/html" ) { 
-                        WriteOutput(emailBody);
-                    }
-                } 
-            /* } */
-                
-            cfstoredproc( procedure="CCV2_Event_Set_HasSent_byID",datasource="#dsn.TILT#" ) {
-                cfprocparam( cfsqltype="CF_SQL_VARCHAR", type="in", value="#arguments.entry.en_id#");
             }
-        }  catch(any e){
+            markSent(arguments.entry.en_id)
+        }catch(any e){
+            return e;
+        }
+    }
+
+    function markSent(required any en_id){
+        try{
+            cfstoredproc( procedure="CCV2_Event_Set_HasSent_byID",datasource="#dsn.TILT#" ) {
+                cfprocparam( cfsqltype="CF_SQL_VARCHAR", type="in", value="#arguments.en_id#");
+            }
+        }catch(any e){
             return e;
         }
     }
